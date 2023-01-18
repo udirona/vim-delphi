@@ -465,8 +465,8 @@ function! delphi#DefineMappings()
 
   execute 'nnoremap <buffer> <leader>dP ?'.class_regex.'\='.func_regex.'<CR>zt'
   execute 'nnoremap <buffer> <leader>dp /'.class_regex.'\?'.func_regex.'<CR>zt'
-  nnoremap <buffer> <leader>n nzt
-  nnoremap <buffer> <leader>N Nzt
+  "noremap <buffer> <leader>n nzt
+  "nnoremap <buffer> <leader>N Nzt
 
   if &foldmethod=='syntax'
     " select inside a begin-end block with vif or vaf

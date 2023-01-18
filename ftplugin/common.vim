@@ -30,7 +30,7 @@
 nmap <buffer> <nowait> <leader>sd :call delphi#SwitchPasOrDfm()<CR>
 nmap <buffer> <nowait> <leader>sp :call delphi#SwitchPasOrDfm()<CR>
 
-setlocal noexpandtab 
+" setlocal noexpandtab 
 " setlocal foldmethod=syntax
 " set foldlevelstart=99 " folds are closed initially
 
