@@ -1,6 +1,10 @@
 # vim-delphi  
 
 A VIM syntax plugin for Delphi Pascal and Delphi Form files.
+This Fork contains some personal adjustment.
+* no mapping for <leader>n
+* no noexpandtabs
+
 
 See also [doc/delphi.txt](http://raw.github.com/mattia72/vim-delphi/master/doc/delphi.txt)
 for detailed documentation.
