@@ -371,26 +371,20 @@ function! delphi#RestoreOrigShell()
   let &shellredir   = g:default_shell_options[5]
   "echohl ModeMsg | echo 'Orig shell has been restored.' | echohl None
 endfunction
- 
-function! delphi#DelphiMakeRecentCmd(...)
-  call delphi#SetDefaultShell()
-  if (exists('*asyncrun#run'))
-	  call delphi#HandleRecentProject(a:000) 
-	  call asyncrun#run('<bang>', { 'post' : 'call g:delphi#PostBuildSteps()', 'auto':'make', 'program':'make'}, '@/p:config='.g:delphi_build_config.' '.g:delphi_recent_project)
-  else 
-    call delphi#SetRecentProjectAndMake(a:000)
-  endif
-  call delphi#RestoreOrigShell()
+
+function! delphi#FindExe(ArgLead, CmdLine, CursorPos)
+  let exeList = []
+  let pattern = '<DeployFile LocalName="(.*)"'
+  for l in  readfile(g:delphi_recent_project)
+    if(l =~ pattern)
+      call add(matchstr(l, pattern), exeList)
+    endif
+  endfor
+  return exeList
 endfunction
 
-function! delphi#DelphiMakeCmd(...)
-  call delphi#SetDefaultShell()
-  if (exists('*asyncrun#run'))
-	  call asyncrun#run('<bang>', { 'post' : 'call g:delphi#PostBuildSteps()', 'auto':'make', 'program':'make'}, '@/p:config='.g:delphi_build_config.' '.g:delphi#FindProject(a:000))
-  else 
-    call delphi#FindAndMake(a:000) " q-args??
-  endif
-  call delphi#RestoreOrigShell()
+function! delphi#ListBuildConfig(ArgLead, CmdLine, CursorPos)
+  return [ 'Debug', 'Release' ] 
 endfunction
 
 function! delphi#DefineCommands()
@@ -427,7 +421,8 @@ function! delphi#DefineCommands()
           "\| call delphi#RestoreOrigShell()
   "endif
 
-  command! -nargs=? DelphiBuildConfig call delphi#SetBuildConfig(<q-args>)
+  command! -nargs=? -complete=customlist,delphi#ListBuildConfig DelphiBuildConfig call delphi#SetBuildConfig(<q-args>)
+  command! -nargs=? -complete=customlist,delphi#FindExe  DelphiMakeAndRun DelphiMakeRecent | !<q-args>
 endfunction
 
 " ----------------------
